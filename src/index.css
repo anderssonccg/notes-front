@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height: 100vh;
+    background-image: url("https://i.imgur.com/AAFP0YP.png");
+    background-size: 750px 400px; 
+    background-repeat: repeat;
+}
