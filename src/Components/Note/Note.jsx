@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import { StarIcon } from "./StarIcon";
-import style from './Note.module.css'
+import style from "./Note.module.css";
 export const Note = ({
   isComplete,
   title,
@@ -10,34 +9,35 @@ export const Note = ({
   color,
   background,
   font,
+  handleToggleComplete,
+  // onDelete,
+  // onEdit,
+  handleToggleImportant
 }) => {
-  const [check, setCheck] = useState(isComplete);
-
-  const [important, setImportant] = useState(isImportant);
-
-  const toggleImportant = () => {
-    setImportant((prev) => !prev);
-  };
-
-  const toggleCheck = () => {
-    setCheck((prev) => !prev);
-  };
 
   return (
-    <div className= {style.noteContainer} style={{
+    <div
+      className={style.noteContainer}
+      style={{
         backgroundColor: color,
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-      }}>
-      <div className= {style.noteHeader} >
-        <input type="checkbox" checked={check} onChange={toggleCheck} className={style.noteCheckbox}/>
+      }}
+    >
+      <div className={style.noteHeader}>
+        <input
+          type="checkbox"
+          checked={isComplete}
+          onChange={handleToggleComplete}
+          className={style.noteCheckbox}
+        />
         <h1 style={{ fontFamily: font }}>{title}</h1>
-        <StarIcon important={important} onToggle={toggleImportant} />
+        <StarIcon important={isImportant} onToggle={handleToggleImportant} />
       </div>
 
-      <div className= {style.noteDescription} >
-          <p>{description}</p>
+      <div className={style.noteDescription}>
+        <p>{description}</p>
       </div>
 
       <div className={style.noteCategory}>

@@ -1,4 +1,4 @@
-.star-wrapper {
+.starWrapper {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -10,12 +10,12 @@
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.star-wrapper.important .star {
+.important .star {
     color: #ffff66;
     animation: shine 0.5s ease forwards;
 }
 
-.star-wrapper:not(.important) .star {
+.starWrapper:not(.important) .star {
     color: #ccc;
 }
 
