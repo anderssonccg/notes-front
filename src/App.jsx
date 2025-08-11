@@ -1,4 +1,4 @@
-import { Home } from "./Pages/home";
+import { Home } from "./Pages/Home";
 import { CreateNotes } from "./Pages/CreateNotes";
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "./Pages/Layout";
