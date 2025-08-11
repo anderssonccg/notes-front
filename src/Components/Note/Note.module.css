@@ -1,0 +1,52 @@
+.noteContainer {
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 320px;
+    font-family: Arial, sans-serif;
+    position: relative;
+    background-color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.noteContainer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.noteHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.noteHeader h1 {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #36412c;
+    margin: 0;
+}
+
+.noteCheckbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #4caf50;
+    cursor: pointer;
+}
+
+.noteDescription {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.noteCategory {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 8px;
+    color: #555;
+}
