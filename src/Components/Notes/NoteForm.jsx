@@ -1,0 +1,100 @@
+import { useState } from "react";
+import style from "./NoteForm.module.css";
+import { FaRegStar, FaStar } from "react-icons/fa";
+
+export const NoteForm = ({ addNote }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tag, setTag] = useState("");
+  const [important, setImportant] = useState(false);
+  const [missingTitle, setMissingTitle] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!title) {
+      setMissingTitle(true);
+      return;
+    }
+    addNote({
+      title,
+      description,
+      tag,
+      important,
+    });
+    setTitle("");
+    setDescription("");
+    setTag("");
+    setImportant(false);
+  };
+
+  const handleMissingTitle = () => {
+    if (!title) {
+      setMissingTitle(true);
+    } else {
+      setMissingTitle(false);
+    }
+  };
+
+  return (
+    <>
+      <form className={style.container} onSubmit={handleSubmit}>
+        <h1 className={style.title}>Nueva nota</h1>
+        <input
+          className={!missingTitle ? style.field : style.errorField}
+          type="text"
+          value={title}
+          placeholder={
+            !missingTitle ? "Titulo" : " ❌ Debe proporcionar un titulo"
+          }
+          onBlur={handleMissingTitle}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
+        <textarea
+          className={style.descriptionField}
+          placeholder="Descripcion"
+          value={description}
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+        ></textarea>
+        <div className={style.tagContainer}>
+          <input
+            className={style.field}
+            type="text"
+            placeholder="Categoria"
+            value={tag}
+            onChange={(e) => {
+              setTag(e.target.value);
+            }}
+          />
+          <span className={style.label}>
+            Marcar como importante
+            {important ? (
+              <FaStar
+                className={style.checkedStar}
+                onClick={() => {
+                  setImportant(!important);
+                }}
+              />
+            ) : (
+              <FaRegStar
+                className={style.star}
+                onClick={() => {
+                  setImportant(!important);
+                }}
+              />
+            )}
+          </span>
+        </div>
+        <div className={style.buttonContainer}>
+          <button type="submit" className={style.button}>
+            Guardar
+          </button>
+          <button className={style.button}>Cancelar</button>
+        </div>
+      </form>
+    </>
+  );
+};
