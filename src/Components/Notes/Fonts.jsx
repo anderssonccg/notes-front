@@ -12,21 +12,22 @@ export const listOfFonts = [
   { name: "Archivo Narrow", font_family: "'Archivo Narrow', sans-serif" },
 ];
 
-export const Fonts = () => {
-    return (
-        <div className={style.container}>
-            <h5>Fuente</h5>
-            <section className={style.fonts_container}>
-                {listOfFonts.map((font, i) => {
-                    return (
-                        <FontBar
-                            key={i}
-                            name={font.name}
-                            font_family={font.font_family}
-                        />
-                    );
-                })}
-            </section>
-        </div>
-    )
-}
+export const Fonts = ({ addFont }) => {
+  return (
+    <div className={style.container}>
+      <h5>Fuente</h5>
+      <section className={style.fonts_container}>
+        {listOfFonts.map((font, i) => {
+          return (
+            <FontBar
+              key={i}
+              name={font.name}
+              font_family={font.font_family}
+              addFont={addFont}
+            />
+          );
+        })}
+      </section>
+    </div>
+  );
+};
