@@ -2,7 +2,7 @@ import { useState } from "react";
 import style from "./NoteForm.module.css";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
-export const NoteForm = ({ addNote }) => {
+export const NoteForm = ({ color, background, font }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -15,12 +15,6 @@ export const NoteForm = ({ addNote }) => {
       setMissingTitle(true);
       return;
     }
-    addNote({
-      title,
-      description,
-      tag,
-      important,
-    });
     setTitle("");
     setDescription("");
     setTag("");
@@ -37,11 +31,18 @@ export const NoteForm = ({ addNote }) => {
 
   return (
     <>
-      <form className={style.container} onSubmit={handleSubmit}>
+      <form
+        className={style.container}
+        style={{
+          backgroundImage: `linear-gradient(${color}66, ${color}66), url(${background})`,
+        }}
+        onSubmit={handleSubmit}
+      >
         <h1 className={style.title}>Nueva nota</h1>
         <input
           className={!missingTitle ? style.field : style.errorField}
           type="text"
+          style={{ fontFamily: font }}
           value={title}
           placeholder={
             !missingTitle ? "Titulo" : " ❌ Debe proporcionar un titulo"
@@ -55,6 +56,7 @@ export const NoteForm = ({ addNote }) => {
           className={style.descriptionField}
           placeholder="Descripcion"
           value={description}
+          style={{ fontFamily: font }}
           onChange={(e) => {
             setDescription(e.target.value);
           }}
