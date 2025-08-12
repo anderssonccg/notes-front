@@ -43,7 +43,7 @@ export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home notes={notes} deleteNote={deleteNote} />} />
+        <Route index element={<Home notes={notes} deleteNote={deleteNote} setNotes={setNotes}/>} />
         <Route
           path="notes/create"
           element={<CreateNotes addNote={addNote} />}
