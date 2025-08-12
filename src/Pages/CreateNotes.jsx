@@ -1,6 +1,6 @@
-import { NoteForm } from "../Components/Notes/NoteForm";
-import { Colors } from "../Components/Notes/Colors";
-import { Fonts } from "../Components/Notes/Fonts";
+import { NoteForm } from "../Components/NotesForm/NoteForm";
+import { Colors } from "../Components/NotesForm/Colors";
+import { Fonts } from "../Components/NotesForm/Fonts";
 import style from "../Styles/notes.module.css";
 import { useState } from "react";
 
