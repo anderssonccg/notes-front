@@ -15,6 +15,7 @@ export const App = () => {
         ...newNote,
       },
     ]);
+    console.log(newNote);
   };
 
   const checkImportant = (id) => {

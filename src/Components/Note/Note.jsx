@@ -1,16 +1,18 @@
 import { StarIcon } from "./StarIcon";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { MdModeEdit } from "react-icons/md";
 import style from "./Note.module.css";
 export const Note = ({
   isComplete,
   title,
   isImportant,
   description,
-  category,
+  tag,
   color,
   background,
   font,
   handleToggleComplete,
-  // onDelete,
+  onDelete,
   // onEdit,
   handleToggleImportant,
 }) => {
@@ -40,7 +42,15 @@ export const Note = ({
       </div>
 
       <div className={style.noteCategory}>
-        <strong>{category}</strong>
+        <strong>{tag}</strong>
+        <div className={style.buttonContainer}>
+          <button className={style.button} onClick={onDelete}>
+            <FaRegTrashAlt />
+          </button>
+          <button className={style.button}>
+            <MdModeEdit />
+          </button>
+        </div>
       </div>
     </div>
   );

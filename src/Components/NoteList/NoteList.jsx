@@ -2,7 +2,13 @@ import React from "react";
 import { Note } from "../Note/Note";
 import styles from "./NoteList.module.css";
 
-export const NoteList = ({ notes, onDelete, onEdit, onToggle, toggleImportant }) => {
+export const NoteList = ({
+  notes,
+  onDelete,
+  onEdit,
+  onToggle,
+  toggleImportant,
+}) => {
   const handleDelete = (id) => {
     onDelete(id);
   };
