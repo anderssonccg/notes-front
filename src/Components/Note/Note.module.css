@@ -1,12 +1,16 @@
 .noteContainer {
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 320px;
-  font-family: Arial, sans-serif;
-  position: relative;
-  background-color: white;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 310px;
+    height: 250px;
+    font-family: Arial, sans-serif;
+    position: relative;
+    background-color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .noteContainer:hover {
@@ -31,26 +35,31 @@
 }
 
 .noteCheckbox {
-  width: 20px;
-  height: 20px;
-  accent-color: #4caf50;
-  cursor: pointer;
+    width: 20px;
+    height: 20px;
+    accent-color: black;
+    cursor: pointer;
 }
 
 .noteDescription {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  color: #333;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #333;
+    margin-bottom: 8px;
+    word-break: break-word;
+    white-space: pre-line;
+    overflow-wrap: break-word;
 }
 
 .noteCategory {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin: 8px 0;
-  color: #555;
+    font-weight: bold;
+    font: poppins, sans-serif;
+    font-size: 1.1rem;
+    margin-top: auto;
+    color: black;
+    align-self: flex-start;
+    padding-bottom: 4px;
+    padding-left: 2px;
 }
 
 .buttonContainer {

@@ -10,13 +10,14 @@
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.important .star {
+.important {
     color: #ffff66;
     animation: shine 0.5s ease forwards;
 }
 
-.starWrapper:not(.important) .star {
+.notImportant {
     color: #ccc;
+    animation: unfade 0.4s ease forwards;
 }
 
 @keyframes shine {
@@ -33,5 +34,22 @@
     100% {
         transform: scale(1);
         filter: drop-shadow(0 0 0px #ffff66);
+    }
+}
+
+@keyframes unfade {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 6px #ffff66);
+    }
+
+    50% {
+        transform: scale(0.8);
+        filter: drop-shadow(0 0 2px #ccc);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0px #ccc);
     }
 }

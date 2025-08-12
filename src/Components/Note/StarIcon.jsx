@@ -1,14 +1,12 @@
-import { FaStar } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
-import styles from "./StarIcon.module.css";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import style from "./StarIcon.module.css";
 
-export const StarIcon = ({ important, onToggle }) => {
-  return (
-    <div
-      onClick={onToggle}
-      className={`${styles.starWrapper} ${important ? styles.important : ""}`}
-    >
-      {important ? <FaStar className={styles.star} /> : <CiStar className={styles.star} />}
-    </div>
-  );
-};
+export const StarIcon = ({ important, onToggle }) => (
+  <span className={style.starWrapper} onClick={onToggle}>
+    {important ? (
+      <FaStar className={`${style.star} ${style.important}`} />
+    ) : (
+      <FaRegStar className={`${style.star} ${style.notImportant}`} />
+    )}
+  </span>
+);
