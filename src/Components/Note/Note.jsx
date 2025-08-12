@@ -12,9 +12,8 @@ export const Note = ({
   handleToggleComplete,
   // onDelete,
   // onEdit,
-  handleToggleImportant
+  handleToggleImportant,
 }) => {
-
   return (
     <div
       className={style.noteContainer}

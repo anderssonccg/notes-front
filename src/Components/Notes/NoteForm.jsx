@@ -1,13 +1,16 @@
 import { useState } from "react";
 import style from "./NoteForm.module.css";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-export const NoteForm = ({ color, background, font }) => {
+export const NoteForm = ({ color, background, font, addNote }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [important, setImportant] = useState(false);
   const [missingTitle, setMissingTitle] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,10 +18,20 @@ export const NoteForm = ({ color, background, font }) => {
       setMissingTitle(true);
       return;
     }
+    addNote({
+      title: title,
+      description: description,
+      tag: tag,
+      isImportant: important,
+      color: color,
+      background: background,
+      font: font,
+    });
     setTitle("");
     setDescription("");
     setTag("");
     setImportant(false);
+    navigate("/");
   };
 
   const handleMissingTitle = () => {
@@ -34,7 +47,9 @@ export const NoteForm = ({ color, background, font }) => {
       <form
         className={style.container}
         style={{
-          backgroundImage: `linear-gradient(${color}66, ${color}66), url(${background})`,
+          background: background
+            ? `linear-gradient(${color}66, ${color}66), url(${background})`
+            : color,
         }}
         onSubmit={handleSubmit}
       >
@@ -94,7 +109,9 @@ export const NoteForm = ({ color, background, font }) => {
           <button type="submit" className={style.button}>
             Guardar
           </button>
-          <button className={style.button}>Cancelar</button>
+          <button className={style.button} onClick={() => navigate("/")}>
+            Cancelar
+          </button>
         </div>
       </form>
     </>
