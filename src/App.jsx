@@ -6,22 +6,24 @@ import { NavBar } from "./Components/NavBar/NavBar";
 import { useState } from "react";
 
 export const App = () => {
+  const [tags, setTags] = useState(new Set());
   const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState(notes);
 
-  const filterNotes = (e) => {
-    const filter = e.target.value;
+  const filterNotes = (filter, tag) => {
     setFilteredNotes(notes);
     setFilteredNotes((prev) =>
       prev.filter(
         (note) =>
-          note.title.toLowerCase().includes(filter.toLowerCase()) ||
-          note.description.toLowerCase().includes(filter.toLowerCase())
+          (note.title.toLowerCase().includes(filter.toLowerCase()) ||
+            note.description.toLowerCase().includes(filter.toLowerCase())) &&
+          (!tag || note.tag === tag)
       )
     );
   };
 
   const addNote = (newNote) => {
+    if (newNote.tag) setTags((prev) => new Set(prev.add(newNote.tag)));
     setNotes((prevNotes) => [
       ...prevNotes,
       {
@@ -55,7 +57,7 @@ export const App = () => {
 
   return (
     <>
-      <NavBar filterNotes={filterNotes} />
+      <NavBar filterNotes={filterNotes} tags={tags} />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route
