@@ -1,52 +1,13 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { NoteList } from "../Components/NoteList/NoteList";
 
-export const Home = () => {
-  const [notes, setNotes] = useState([]);
-
-  const handleAddNote = (newNote) => {
-  setNotes((prevNotes) => [
-    ...prevNotes,
-    {
-      id: Date.now(),
-      isComplete: false,        
-      isImportant: false,       
-      ...newNote              
-    }
-  ]);
-};
-
-  const handleToggleImportant = (id) => {
-    setNotes((prevNotes) =>
-      prevNotes.map((note) =>
-        note.id === id ? { ...note, isImportant: !note.isImportant } : note
-      )
-    );
-  };
-
-  // Para editar la nota en dado caso que se vea necesario
-  const handleEdit = (/*id*/) => {};
-
-  const handleDelete = (id) => {
-    setNotes((prev) => prev.filter((note) => note.id !== id));
-  };
-
-  const handleToggleComplete = (id) => {
-    setNotes((prev) =>
-      prev.map((note) =>
-        note.id === id ? { ...note, isComplete: !note.isComplete } : note
-      )
-    );
-  };
-
+export const Home = ({ notes, deleteNote }) => {
+  const navigate = useNavigate();
   return (
     <div>
-      <NoteList
-        notes={notes}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-        onToggle={handleToggleComplete}
-        toggleImportant={handleToggleImportant}
-      />
+      {/* Hice este boton temporal mientras se mergea el navbar */}
+      <button onClick={() => navigate("notes/create")}>Nueva nota</button>
+      <NoteList notes={notes} onDelete={deleteNote} />
     </div>
   );
 };

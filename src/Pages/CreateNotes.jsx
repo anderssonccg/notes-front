@@ -4,8 +4,8 @@ import { Fonts } from "../Components/Notes/Fonts";
 import style from "../Styles/notes.module.css";
 import { useState } from "react";
 
-export const CreateNotes = () => {
-  const [color, setColor] = useState("");
+export const CreateNotes = ({ addNote }) => {
+  const [color, setColor] = useState("#d3c1ad");
   const [background, setBackground] = useState("");
   const [font, setFont] = useState("");
 
@@ -24,7 +24,12 @@ export const CreateNotes = () => {
   return (
     <div className={style.notes_container}>
       <Colors addColor={addColor} addBackground={addBackground} />
-      <NoteForm color={color} background={background} font={font} />
+      <NoteForm
+        color={color}
+        background={background}
+        font={font}
+        addNote={addNote}
+      />
       <Fonts addFont={addFont} />
     </div>
   );
