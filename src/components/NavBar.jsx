@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import styles from "./NavBar.module.css";
+import { useNavigate } from "react-router-dom";
 
-function NavBar() {
+export const NavBar = ({ filterNotes }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -10,25 +12,34 @@ function NavBar() {
     <nav className={styles.navbar}>
       <h1 className={styles.logo}>NOTAS</h1>
 
-      <input type="text" placeholder="Bucar notas" className={styles.search} />
+      <input
+        type="text"
+        placeholder="Buscar notas"
+        className={styles.search}
+        onChange={filterNotes}
+      />
+      <div className={styles.buttonContainer}>
+        <div className={styles.dropdown}>
+          <button onClick={toggleDropdown} className={styles.filterBtn}>
+            ▼ Filtrar por
+          </button>
 
-      <div className={styles.dropdown}>
-        <button onClick={toggleDropdown} className={styles.filterBtn}>
-          ▼ Filtrar por
+          {isOpen && (
+            <ul className={styles.menu}>
+              <li>Hogar</li>
+              <li>Universidad</li>
+              <li>Diario</li>
+            </ul>
+          )}
+        </div>
+
+        <button
+          className={styles.newNoteBtn}
+          onClick={() => navigate("/notes/create")}
+        >
+          ➕ Nueva nota
         </button>
-
-        {isOpen && (
-          <ul className={styles.menu}>
-            <li>Hogar</li>
-            <li>Universidad</li>
-            <li>Diario</li>
-          </ul>
-        )}
       </div>
-
-      <button className={styles.newNoteBtn}>➕ Nueva nota</button>
     </nav>
   );
-}
-
-export default NavBar;
+};
