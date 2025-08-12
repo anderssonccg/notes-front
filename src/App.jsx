@@ -65,6 +65,17 @@ export const App = () => {
   const updateNote = (/*id*/) => {};
 
   const deleteNote = (id) => {
+    const noteFound = notes.find((note) => note.id === id);
+    if(noteFound){
+      const notesWithTag = notes.filter((note) => note.tag === noteFound.tag);
+      console.log(notesWithTag);
+      if(notesWithTag.length === 1){
+          setTags((prev) => {
+            prev.delete(noteFound.tag);
+            return new Set(prev);
+          });
+      }
+    }
     setNotes((prev) => prev.filter((note) => note.id !== id));
     setFilteredNotes((prev) => prev.filter((note) => note.id !== id));
   };

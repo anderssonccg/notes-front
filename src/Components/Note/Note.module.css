@@ -52,6 +52,10 @@
 }
 
 .noteCategory {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
     font-weight: bold;
     font: poppins, sans-serif;
     font-size: 1.1rem;
@@ -65,7 +69,7 @@
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 5px;
 }
 
 .button {
@@ -83,5 +87,5 @@
 }
 
 .button:hover {
-  background-color: lightyellow;
+  background-color: rgb(217, 217, 127);
 }
