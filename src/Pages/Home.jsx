@@ -1,8 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { NoteList } from "../Components/NoteList/NoteList";
 
 export const Home = ({ notes, setNotes ,deleteNote }) => {
-  const navigate = useNavigate();
   // Ordena: importantes primero
   const sortedNotes = [...notes].sort((a, b) => {
     if (a.isImportant === b.isImportant) return 0;
@@ -26,8 +24,6 @@ export const Home = ({ notes, setNotes ,deleteNote }) => {
   };
   return (
     <div>
-      {/* Hice este boton temporal mientras se mergea el navbar */}
-      <button onClick={() => navigate("notes/create")}>Nueva nota</button>
       <NoteList
         notes={sortedNotes}
         onDelete={deleteNote}
