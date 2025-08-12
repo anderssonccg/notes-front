@@ -1,7 +1,11 @@
 import { useState } from "react";
 import style from "./NoteForm.module.css";
-import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { TitleField } from "./TitleField";
+import { DescriptionField } from "./DescriptionField";
+import { TagField } from "./TagField";
+import { ImportantCheck } from "./ImportantCheck";
+import { FormButtons } from "./FormButtons";
 
 export const NoteForm = ({ color, background, font, addNote }) => {
   const [title, setTitle] = useState("");
@@ -42,77 +46,51 @@ export const NoteForm = ({ color, background, font, addNote }) => {
     }
   };
 
+  const noteStyle = {
+    background: background
+      ? `linear-gradient(${color}66, ${color}66), url(${background})`
+      : color,
+  };
+
   return (
     <>
       <form
         className={style.container}
-        style={{
-          background: background
-            ? `linear-gradient(${color}66, ${color}66), url(${background})`
-            : color,
-        }}
+        style={noteStyle}
         onSubmit={handleSubmit}
       >
         <h1 className={style.title}>Nueva nota</h1>
-        <input
-          className={!missingTitle ? style.field : style.errorField}
-          type="text"
-          style={{ fontFamily: font }}
-          value={title}
-          placeholder={
-            !missingTitle ? "Titulo" : " ❌ Debe proporcionar un titulo"
-          }
-          onBlur={handleMissingTitle}
+        <TitleField
+          title={title}
+          missingTitle={missingTitle}
           onChange={(e) => {
             setTitle(e.target.value);
           }}
+          onBlur={handleMissingTitle}
+          font={font}
         />
-        <textarea
-          className={style.descriptionField}
-          placeholder="Descripcion"
-          value={description}
-          style={{ fontFamily: font }}
+        <DescriptionField
+          description={description}
           onChange={(e) => {
             setDescription(e.target.value);
           }}
-        ></textarea>
+          font={font}
+        />
         <div className={style.tagContainer}>
-          <input
-            className={style.field}
-            type="text"
-            placeholder="Categoria"
-            value={tag}
+          <TagField
+            tag={tag}
             onChange={(e) => {
               setTag(e.target.value);
             }}
           />
-          <span className={style.label}>
-            Marcar como importante
-            {important ? (
-              <FaStar
-                className={style.checkedStar}
-                onClick={() => {
-                  setImportant(!important);
-                }}
-              />
-            ) : (
-              <FaRegStar
-                className={style.star}
-                onClick={() => {
-                  setImportant(!important);
-                }}
-              />
-            )}
-          </span>
+          <ImportantCheck
+            important={important}
+            onClick={() => {
+              setImportant(!important);
+            }}
+          />
         </div>
-        <div className={style.buttonContainer}>
-          <button type="submit" className={style.button}>
-            Guardar
-          </button>
-          <button className={style.button} onClick={() => navigate("/")}>
-            Cancelar
-          </button>
-        </div>
+        <FormButtons navigate={navigate} />
       </form>
     </>
   );
