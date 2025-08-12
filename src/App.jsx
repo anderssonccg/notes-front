@@ -3,21 +3,35 @@ import { CreateNotes } from "./Pages/CreateNotes";
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "./Pages/Layout";
 import { NavBar } from "./Components/NavBar/NavBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const App = () => {
   const [tags, setTags] = useState(new Set());
   const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState(notes);
+  const [filter, setFilter] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
 
-  const filterNotes = (filter, tag) => {
-    setFilteredNotes(notes);
-    setFilteredNotes((prev) =>
-      prev.filter(
+  useEffect(() => {
+    setFilteredNotes(
+      notes.filter(
         (note) =>
           (note.title.toLowerCase().includes(filter.toLowerCase()) ||
             note.description.toLowerCase().includes(filter.toLowerCase())) &&
-          (!tag || note.tag === tag)
+          (!selectedTag || note.tag === selectedTag)
+      )
+    );
+  }, [notes, filter, selectedTag]);
+
+  const filterNotes = (filterValue, tagValue) => {
+    setFilter(filterValue);
+    setSelectedTag(tagValue);
+    setFilteredNotes(
+      notes.filter(
+        (note) =>
+          (note.title.toLowerCase().includes(filterValue.toLowerCase()) ||
+            note.description.toLowerCase().includes(filterValue.toLowerCase())) &&
+          (!tagValue || note.tag === tagValue)
       )
     );
   };

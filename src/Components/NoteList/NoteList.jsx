@@ -1,7 +1,7 @@
 import React from "react";
 import { Note } from "../Note/Note";
 import styles from "./NoteList.module.css";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const NoteList = ({
   notes,
