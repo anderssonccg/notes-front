@@ -2,7 +2,7 @@ import { Home } from "./Pages/Home";
 import { CreateNotes } from "./Pages/CreateNotes";
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "./Pages/Layout";
-import { NavBar } from "./Components/NavBar";
+import { NavBar } from "./Components/NavBar/NavBar";
 import { useState } from "react";
 
 export const App = () => {
