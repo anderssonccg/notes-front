@@ -1,6 +1,6 @@
 import { Home } from "./Pages/Home";
 import { CreateNotes } from "./Pages/CreateNotes";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Layout } from "./Pages/Layout";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { useEffect, useState } from "react";
@@ -8,10 +8,16 @@ import { useEffect, useState } from "react";
 export const App = () => {
   const initialTags = JSON.parse(localStorage.getItem("tags"));
   const [tags, setTags] = useState(new Set(initialTags));
-  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes")) || []);
-  const [filteredNotes, setFilteredNotes] = useState(JSON.parse(localStorage.getItem("filteredNotes")) || notes);
+  const [notes, setNotes] = useState(
+    JSON.parse(localStorage.getItem("notes")) || []
+  );
+  const [filteredNotes, setFilteredNotes] = useState(
+    JSON.parse(localStorage.getItem("filteredNotes")) || notes
+  );
   const [filter, setFilter] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
+  const [editingNote, setEditingNote] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -37,14 +43,15 @@ export const App = () => {
       notes.filter(
         (note) =>
           (note.title.toLowerCase().includes(filterValue.toLowerCase()) ||
-            note.description.toLowerCase().includes(filterValue.toLowerCase())) &&
+            note.description
+              .toLowerCase()
+              .includes(filterValue.toLowerCase())) &&
           (!tagValue || note.tag === tagValue)
       )
     );
   };
 
   const addNote = (newNote) => {
-    
     if (newNote.tag) setTags((prev) => new Set(prev.add(newNote.tag)));
     setNotes((prevNotes) => [
       ...prevNotes,
@@ -62,6 +69,58 @@ export const App = () => {
     ]);
   };
 
+  const deleteNote = (id) => {
+    const noteFound = notes.find((note) => note.id === id);
+    if (noteFound) {
+      const notesWithTag = notes.filter((note) => note.tag === noteFound.tag);
+      if (notesWithTag.length === 1) {
+        setTags((prev) => {
+          prev.delete(noteFound.tag);
+          return new Set(prev);
+        });
+      }
+    }
+    setNotes((prev) => prev.filter((note) => note.id !== id));
+    setFilteredNotes((prev) => prev.filter((note) => note.id !== id));
+  };
+
+  const updateNote = (updatedNote) => {
+    // Detecta el tag original antes de actualizar
+    const noteFound = notes.find((note) => note.id === updatedNote.id);
+    const originalTag = noteFound ? noteFound.tag : null;
+
+    // Actualiza la nota en los estados
+    setNotes((prevNotes) =>
+      prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
+    );
+    setFilteredNotes((prevNotes) =>
+      prevNotes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
+    );
+
+    // Si el tag original ya no tiene notas, elimínalo
+    if (originalTag && originalTag !== updatedNote.tag) {
+      // Busca si quedan notas con el tag original
+      const notesWithOriginalTag = notes
+        .filter((note) => note.id !== updatedNote.id)
+        .filter((note) => note.tag === originalTag);
+      if (notesWithOriginalTag.length === 0) {
+        setTags((prev) => {
+          const newTags = new Set(prev);
+          newTags.delete(originalTag);
+          return newTags;
+        });
+      }
+    }
+
+    // Si el nuevo tag no existe, agrégarlo
+    if (updatedNote.tag && !tags.has(updatedNote.tag)) {
+      setTags((prev) => new Set(prev.add(updatedNote.tag)));
+    }
+
+    setEditingNote(null);
+    navigate("/");
+  };
+
   const checkImportant = (id) => {
     setNotes((prevNotes) =>
       prevNotes.map((note) =>
@@ -70,21 +129,14 @@ export const App = () => {
     );
   };
 
-  const updateNote = (/*id*/) => {};
-
-  const deleteNote = (id) => {
-    const noteFound = notes.find((note) => note.id === id);
-    if(noteFound){
-      const notesWithTag = notes.filter((note) => note.tag === noteFound.tag);
-      if(notesWithTag.length === 1){
-          setTags((prev) => {
-            prev.delete(noteFound.tag);
-            return new Set(prev);
-          });
-      }
-    }
-    setNotes((prev) => prev.filter((note) => note.id !== id));
-    setFilteredNotes((prev) => prev.filter((note) => note.id !== id));
+  const handleEdit = (note) => {
+    // Buscar nota por id y guardar la nota encontrada
+    const noteToEdit = notes.find((n) => n.id === note);
+    if (!noteToEdit) return;
+    // Guardar que nota estamos editando
+    setEditingNote(note);
+    // Navegar a la página de creación de notas
+    navigate("/notes/create");
   };
 
   return (
@@ -94,12 +146,27 @@ export const App = () => {
         <Route path="/" element={<Layout />}>
           <Route
             index
-            element={<Home notes={filteredNotes} deleteNote={deleteNote} setNotes={setNotes}/>}
+            element={
+              <Home
+                notes={filteredNotes}
+                deleteNote={deleteNote}
+                setNotes={setNotes}
+                onEdit={handleEdit}
+              />
+            }
           />
           <Route
             path="notes/create"
-            element={<CreateNotes addNote={addNote} />}
+            element={
+              <CreateNotes
+                addNote={addNote}
+                updateNote={updateNote}
+                noteToEdit={notes.find((n) => n.id === editingNote)}
+                tags={tags}
+              />
+            }
           />
+          getNoteToEdit
         </Route>
       </Routes>
     </>

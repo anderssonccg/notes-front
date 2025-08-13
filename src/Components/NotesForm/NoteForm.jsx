@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./NoteForm.module.css";
 import { useNavigate } from "react-router-dom";
 import { TitleField } from "./TitleField";
@@ -6,8 +6,17 @@ import { DescriptionField } from "./DescriptionField";
 import { TagField } from "./TagField";
 import { ImportantCheck } from "./ImportantCheck";
 import { FormButtons } from "./FormButtons";
+import { TagComboBox } from "./TagComboBox";
 
-export const NoteForm = ({ color, background, font, addNote }) => {
+export const NoteForm = ({
+  color,
+  background,
+  font,
+  addNote,
+  updateNote,
+  noteToEdit,
+  tags,
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -22,15 +31,21 @@ export const NoteForm = ({ color, background, font, addNote }) => {
       setMissingTitle(true);
       return;
     }
-    addNote({
-      title: title,
-      description: description,
-      tag: tag,
+    const noteData = {
+      title,
+      description,
+      tag,
       isImportant: important,
-      color: color,
-      background: background,
-      font: font,
-    });
+      color,
+      background,
+      font,
+    };
+    if (noteToEdit) {
+      console.log("noteToEdit ID:", noteToEdit.id);
+      updateNote({ ...noteData, id: noteToEdit.id });
+    } else {
+      addNote(noteData);
+    }
     setTitle("");
     setDescription("");
     setTag("");
@@ -51,6 +66,15 @@ export const NoteForm = ({ color, background, font, addNote }) => {
       ? `linear-gradient(${color}66, ${color}66), url(${background})`
       : color,
   };
+
+  useEffect(() => {
+    if (noteToEdit) {
+      setTitle(noteToEdit.title || "");
+      setDescription(noteToEdit.description || "");
+      setTag(noteToEdit.tag || "");
+      setImportant(noteToEdit.isImportant || false);
+    }
+  }, [noteToEdit]);
 
   return (
     <>
@@ -77,12 +101,22 @@ export const NoteForm = ({ color, background, font, addNote }) => {
           font={font}
         />
         <div className={style.tagContainer}>
-          <TagField
-            tag={tag}
-            onChange={(e) => {
-              setTag(e.target.value);
-            }}
-          />
+          {noteToEdit ? (
+            <TagComboBox
+              tag={tag}
+              onChange={(e) => {
+                setTag(e.target.value);
+              }}
+              options={Array.from(tags)}
+            />
+          ) : (
+            <TagField
+              tag={tag}
+              onChange={(e) => {
+                setTag(e.target.value);
+              }}
+            />
+          )}
           <ImportantCheck
             important={important}
             onClick={() => {

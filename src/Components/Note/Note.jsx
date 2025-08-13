@@ -17,7 +17,7 @@ export const Note = ({
   font,
   handleToggleComplete,
   onDelete,
-  // onEdit,
+  onEdit,
   handleToggleImportant,
 }) => {
   // Aplica el color con opacidad sobre la imagen de fondo
@@ -57,7 +57,7 @@ export const Note = ({
           <button className={style.button} onClick={onDelete}>
             <FaRegTrashAlt/>
           </button>
-          <button className={style.button}>
+          <button className={style.button} onClick={onEdit}>
             <MdEdit/>
           </button>
         </div>
