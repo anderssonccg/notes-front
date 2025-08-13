@@ -1,6 +1,6 @@
 .noteList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
   gap: 16px;
   transition: all 0.4s cubic-bezier(.4, 2, .6, 1);
   padding: 10px;

@@ -2,6 +2,8 @@ import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleFill,
 } from "react-icons/ri";
+import { MdEdit } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { StarIcon } from "./StarIcon";
 import style from "./Note.module.css";
 export const Note = ({
@@ -14,7 +16,7 @@ export const Note = ({
   background,
   font,
   handleToggleComplete,
-  // onDelete,
+  onDelete,
   // onEdit,
   handleToggleImportant,
 }) => {
@@ -51,6 +53,14 @@ export const Note = ({
 
       <div className={style.noteCategory}>
         <strong>{tag}</strong>
+        <div className={style.buttonContainer}>
+          <button className={style.button} onClick={onDelete}>
+            <FaRegTrashAlt/>
+          </button>
+          <button className={style.button}>
+            <MdEdit/>
+          </button>
+        </div>
       </div>
     </div>
   );
