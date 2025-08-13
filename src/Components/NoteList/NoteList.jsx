@@ -16,27 +16,33 @@ export const NoteList = ({
   const handleToggleImportant = (id) => onToggleImportant(id);
 
   return (
-    <div className={styles.noteList}>
-      <AnimatePresence>
-        {notes.map((note) => (
-          <motion.div
-            key={note.id}
-            layout
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          >
-            <Note
-              {...note}
-              onDelete={() => handleDelete(note.id)}
-              onEdit={() => handleEdit(note.id)}
-              handleToggleComplete={() => handleToggleComplete(note.id)}
-              handleToggleImportant={() => handleToggleImportant(note.id)}
-            />
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
+    <>
+      {notes.length === 0 ? (
+        <h1 className={styles.title}>No existen notas creadas</h1>
+      ) : (
+        <div className={styles.noteList}>
+          <AnimatePresence>
+            {notes.map((note) => (
+              <motion.div
+                key={note.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <Note
+                  {...note}
+                  onDelete={() => handleDelete(note.id)}
+                  onEdit={() => handleEdit(note.id)}
+                  handleToggleComplete={() => handleToggleComplete(note.id)}
+                  handleToggleImportant={() => handleToggleImportant(note.id)}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
+    </>
   );
 };

@@ -83,7 +83,9 @@ export const NoteForm = ({
         style={noteStyle}
         onSubmit={handleSubmit}
       >
-        <h1 className={style.title}>Nueva nota</h1>
+        <h1 className={style.title}>
+          {noteToEdit ? "Editar nota" : "Nueva nota"}
+        </h1>
         <TitleField
           title={title}
           missingTitle={missingTitle}

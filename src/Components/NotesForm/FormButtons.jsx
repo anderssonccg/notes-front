@@ -6,7 +6,11 @@ export const FormButtons = ({ navigate }) => {
       <button type="submit" className={style.button}>
         Guardar
       </button>
-      <button className={style.button} onClick={() => navigate("/")}>
+      <button
+        type="button"
+        className={style.button}
+        onClick={() => navigate("/")}
+      >
         Cancelar
       </button>
     </div>
