@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { Layout } from "./Pages/Layout";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { useEffect, useState } from "react";
+import { Error } from "./Pages/Error/Error";
 
 export const App = () => {
   const initialTags = JSON.parse(localStorage.getItem("tags"));
@@ -166,7 +167,7 @@ export const App = () => {
               />
             }
           />
-          getNoteToEdit
+          <Route path="*" element={<Error />} />
         </Route>
       </Routes>
     </>
