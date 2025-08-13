@@ -36,7 +36,6 @@ export const NavBar = ({ filterNotes, tags }) => {
           <button onClick={toggleDropdown} className={styles.filterBtn}>
             {option ? option : "▼ Filtrar por"}
           </button>
-
           {isOpen && (
             <ul className={styles.menu}>
               {option && (
