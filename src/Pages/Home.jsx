@@ -1,6 +1,6 @@
 import { NoteList } from "../Components/NoteList/NoteList";
 
-export const Home = ({ notes, setNotes ,deleteNote }) => {
+export const Home = ({ notes, setNotes ,deleteNote, onEdit }) => {
   // Ordena: importantes primero
   const sortedNotes = [...notes].sort((a, b) => {
     if (a.isImportant === b.isImportant) return 0;
@@ -27,6 +27,7 @@ export const Home = ({ notes, setNotes ,deleteNote }) => {
       <NoteList
         notes={sortedNotes}
         onDelete={deleteNote}
+        onEdit={onEdit}
         onToggleComplete={handleToggleComplete}
         onToggleImportant={handleToggleImportant}
       />
