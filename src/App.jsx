@@ -6,11 +6,18 @@ import { NavBar } from "./Components/NavBar/NavBar";
 import { useEffect, useState } from "react";
 
 export const App = () => {
-  const [tags, setTags] = useState(new Set());
-  const [notes, setNotes] = useState([]);
-  const [filteredNotes, setFilteredNotes] = useState(notes);
+  const initialTags = JSON.parse(localStorage.getItem("tags"));
+  const [tags, setTags] = useState(new Set(initialTags));
+  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes")));
+  const [filteredNotes, setFilteredNotes] = useState(JSON.parse(localStorage.getItem("filteredNotes")));
   const [filter, setFilter] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+    localStorage.setItem("filteredNotes", JSON.stringify(filteredNotes));
+    localStorage.setItem("tags", JSON.stringify([...tags]));
+  }, [notes, filteredNotes, tags]);
 
   useEffect(() => {
     setFilteredNotes(
@@ -37,6 +44,7 @@ export const App = () => {
   };
 
   const addNote = (newNote) => {
+    
     if (newNote.tag) setTags((prev) => new Set(prev.add(newNote.tag)));
     setNotes((prevNotes) => [
       ...prevNotes,
@@ -68,7 +76,6 @@ export const App = () => {
     const noteFound = notes.find((note) => note.id === id);
     if(noteFound){
       const notesWithTag = notes.filter((note) => note.tag === noteFound.tag);
-      console.log(notesWithTag);
       if(notesWithTag.length === 1){
           setTags((prev) => {
             prev.delete(noteFound.tag);
