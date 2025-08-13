@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 export const App = () => {
   const initialTags = JSON.parse(localStorage.getItem("tags"));
   const [tags, setTags] = useState(new Set(initialTags));
-  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes")));
-  const [filteredNotes, setFilteredNotes] = useState(JSON.parse(localStorage.getItem("filteredNotes")));
+  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes")) || []);
+  const [filteredNotes, setFilteredNotes] = useState(JSON.parse(localStorage.getItem("filteredNotes")) || notes);
   const [filter, setFilter] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
 
