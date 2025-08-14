@@ -4,7 +4,13 @@ import { Fonts } from "../Components/NotesForm/Fonts";
 import style from "../Styles/notes.module.css";
 import { useState } from "react";
 
-export const CreateNotes = ({ addNote, updateNote, noteToEdit, tags }) => {
+export const CreateNotes = ({
+  addNote,
+  updateNote,
+  setEditingNote,
+  noteToEdit,
+  tags,
+}) => {
   const [color, setColor] = useState("#d3c1ad");
   const [background, setBackground] = useState("");
   const [font, setFont] = useState("");
@@ -30,6 +36,7 @@ export const CreateNotes = ({ addNote, updateNote, noteToEdit, tags }) => {
         font={font}
         addNote={addNote}
         updateNote={updateNote}
+        setEditingNote={setEditingNote}
         noteToEdit={noteToEdit}
         tags={tags}
       />

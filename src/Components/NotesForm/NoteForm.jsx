@@ -14,6 +14,7 @@ export const NoteForm = ({
   font,
   addNote,
   updateNote,
+  setEditingNote,
   noteToEdit,
   tags,
 }) => {
@@ -126,7 +127,7 @@ export const NoteForm = ({
             }}
           />
         </div>
-        <FormButtons navigate={navigate} />
+        <FormButtons navigate={navigate} setEditingNote={setEditingNote} />
       </form>
     </>
   );
