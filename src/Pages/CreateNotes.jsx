@@ -24,7 +24,7 @@ export const CreateNotes = ({
   };
 
   const addFont = (newFont) => {
-    setFont(newFont);
+    setFont(newFont); 
   };
 
   return (
