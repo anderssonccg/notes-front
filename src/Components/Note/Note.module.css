@@ -89,3 +89,10 @@
 .button:hover {
   background-color: rgb(217, 217, 127);
 }
+
+.noteTitle {
+  padding: 0 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

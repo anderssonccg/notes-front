@@ -38,12 +38,14 @@ export const Note = ({
           title={isComplete ? "Desmarcar" : "Marcar como completada"}
         >
           {isComplete ? (
-            <RiCheckboxCircleFill size={25}/>
+            <RiCheckboxCircleFill size={25} />
           ) : (
             <RiCheckboxBlankCircleLine size={25} />
           )}
         </span>
-        <h1 style={{ fontFamily: font }}>{title}</h1>
+        <h1 style={{ fontFamily: font }} className={style.noteTitle}>
+          {title}
+        </h1>
         <StarIcon important={isImportant} onToggle={handleToggleImportant} />
       </div>
 
@@ -55,10 +57,10 @@ export const Note = ({
         <strong>{tag}</strong>
         <div className={style.buttonContainer}>
           <button className={style.button} onClick={onDelete}>
-            <FaRegTrashAlt/>
+            <FaRegTrashAlt />
           </button>
           <button className={style.button} onClick={onEdit}>
-            <MdEdit/>
+            <MdEdit />
           </button>
         </div>
       </div>
