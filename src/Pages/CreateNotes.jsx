@@ -24,13 +24,16 @@ export const CreateNotes = ({
   };
 
   const addFont = (newFont) => {
-    setFont(newFont); 
+    setFont(newFont);
   };
 
   return (
     <div className={style.notes_container}>
       <Colors addColor={addColor} addBackground={addBackground} />
       <NoteForm
+        addColor={addColor}
+        addBackground={addBackground}
+        addFont={addFont}
         color={color}
         background={background}
         font={font}

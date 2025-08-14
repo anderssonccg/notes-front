@@ -9,6 +9,9 @@ import { FormButtons } from "./FormButtons";
 import { TagComboBox } from "./TagComboBox";
 
 export const NoteForm = ({
+  addColor,
+  addBackground,
+  addFont,
   color,
   background,
   font,
@@ -70,6 +73,9 @@ export const NoteForm = ({
 
   useEffect(() => {
     if (noteToEdit) {
+      addColor(noteToEdit.color || "");
+      addBackground(noteToEdit.background || "");
+      addFont(noteToEdit.font || "");
       setTitle(noteToEdit.title || "");
       setDescription(noteToEdit.description || "");
       setTag(noteToEdit.tag || "");
