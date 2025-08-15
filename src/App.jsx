@@ -25,7 +25,14 @@ export const App = () => {
   const [filter, setFilter] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
   const [editingNote, setEditingNote] = useState(null);
+  const [selectedNotes, setSelectedNotes] = useState([]);
+  // Para saber si se eliminaron notas
   const navigate = useNavigate();
+
+  // Sincronizar `selectedNotes` automáticamente
+  useEffect(() => {
+    setSelectedNotes(notes.filter((note) => note.isComplete));
+  }, [notes]);
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -77,19 +84,34 @@ export const App = () => {
     ]);
   };
 
-  const deleteNote = (id) => {
-    const noteFound = notes.find((note) => note.id === id);
-    if (noteFound) {
-      const notesWithTag = notes.filter((note) => note.tag === noteFound.tag);
-      if (notesWithTag.length === 1) {
+  const deleteNote = (ids) => {
+    // Convertimos a array siempre, para que el código sea más simple
+    const idsToDelete = Array.isArray(ids) ? ids : [ids];
+
+    // Obtenemos las notas que vamos a eliminar
+    const notesToDelete = notes.filter((note) => idsToDelete.includes(note.id));
+
+    // Verificamos tags que deben eliminarse
+    notesToDelete.forEach((noteToDelete) => {
+      const notesWithSameTag = notes.filter(
+        (note) => note.tag === noteToDelete.tag
+      );
+      if (notesWithSameTag.length === 1) {
+        // Si es la última nota con ese tag, quitamos el tag
         setTags((prev) => {
-          prev.delete(noteFound.tag);
+          prev.delete(noteToDelete.tag);
           return new Set(prev);
         });
       }
-    }
-    setNotes((prev) => prev.filter((note) => note.id !== id));
-    setFilteredNotes((prev) => prev.filter((note) => note.id !== id));
+    });
+
+    // Eliminamos de notes
+    setNotes((prev) => prev.filter((note) => !idsToDelete.includes(note.id)));
+
+    // Eliminamos de filteredNotes también
+    setFilteredNotes((prev) =>
+      prev.filter((note) => !idsToDelete.includes(note.id))
+    );
   };
 
   const updateNote = (updatedNote) => {
@@ -129,14 +151,6 @@ export const App = () => {
     navigate("/");
   };
 
-  const checkImportant = (id) => {
-    setNotes((prevNotes) =>
-      prevNotes.map((note) =>
-        note.id === id ? { ...note, isImportant: !note.isImportant } : note
-      )
-    );
-  };
-
   const handleEdit = (note) => {
     // Buscar nota por id y guardar la nota encontrada
     const noteToEdit = notes.find((n) => n.id === note);
@@ -145,6 +159,14 @@ export const App = () => {
     setEditingNote(note);
     // Navegar a la página de creación de notas
     navigate("/notes/create");
+  };
+
+  const handleSelectNote = (id) => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, isComplete: !note.isComplete } : note
+      )
+    );
   };
 
   return (
@@ -160,6 +182,8 @@ export const App = () => {
                 deleteNote={deleteNote}
                 setNotes={setNotes}
                 onEdit={handleEdit}
+                onSelect={handleSelectNote}
+                notesToDelete={selectedNotes}
               />
             }
           />
