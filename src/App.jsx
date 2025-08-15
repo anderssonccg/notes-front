@@ -4,16 +4,24 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { Layout } from "./Pages/Layout";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { useEffect, useState } from "react";
+import { Error } from "./Pages/Error/Error";
+
+const getTags = () => {
+  return JSON.parse(localStorage.getItem("tags"));
+};
+
+const getNotes = () => {
+  return JSON.parse(localStorage.getItem("notes")) || [];
+};
+
+const getFilteredNotes = () => {
+  return JSON.parse(localStorage.getItem("filteredNotes")) || [];
+};
 
 export const App = () => {
-  const initialTags = JSON.parse(localStorage.getItem("tags"));
-  const [tags, setTags] = useState(new Set(initialTags));
-  const [notes, setNotes] = useState(
-    JSON.parse(localStorage.getItem("notes")) || []
-  );
-  const [filteredNotes, setFilteredNotes] = useState(
-    JSON.parse(localStorage.getItem("filteredNotes")) || notes
-  );
+  const [tags, setTags] = useState(new Set(getTags()));
+  const [notes, setNotes] = useState(getNotes());
+  const [filteredNotes, setFilteredNotes] = useState(getFilteredNotes());
   const [filter, setFilter] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
   const [editingNote, setEditingNote] = useState(null);
@@ -161,12 +169,13 @@ export const App = () => {
               <CreateNotes
                 addNote={addNote}
                 updateNote={updateNote}
+                setEditingNote={setEditingNote}
                 noteToEdit={notes.find((n) => n.id === editingNote)}
                 tags={tags}
               />
             }
           />
-          getNoteToEdit
+          <Route path="*" element={<Error />} />
         </Route>
       </Routes>
     </>

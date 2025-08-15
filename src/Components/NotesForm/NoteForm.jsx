@@ -9,11 +9,15 @@ import { FormButtons } from "./FormButtons";
 import { TagComboBox } from "./TagComboBox";
 
 export const NoteForm = ({
+  addColor,
+  addBackground,
+  addFont,
   color,
   background,
   font,
   addNote,
   updateNote,
+  setEditingNote,
   noteToEdit,
   tags,
 }) => {
@@ -69,6 +73,9 @@ export const NoteForm = ({
 
   useEffect(() => {
     if (noteToEdit) {
+      addColor(noteToEdit.color || "");
+      addBackground(noteToEdit.background || "");
+      addFont(noteToEdit.font || "");
       setTitle(noteToEdit.title || "");
       setDescription(noteToEdit.description || "");
       setTag(noteToEdit.tag || "");
@@ -83,7 +90,9 @@ export const NoteForm = ({
         style={noteStyle}
         onSubmit={handleSubmit}
       >
-        <h1 className={style.title}>Nueva nota</h1>
+        <h1 className={style.title}>
+          {noteToEdit ? "Editar nota" : "Nueva nota"}
+        </h1>
         <TitleField
           title={title}
           missingTitle={missingTitle}
@@ -124,7 +133,7 @@ export const NoteForm = ({
             }}
           />
         </div>
-        <FormButtons navigate={navigate} />
+        <FormButtons navigate={navigate} setEditingNote={setEditingNote} />
       </form>
     </>
   );
