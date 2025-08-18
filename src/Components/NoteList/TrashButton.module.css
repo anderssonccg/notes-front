@@ -1,0 +1,26 @@
+.floating_delete_btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border: none;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.floating_delete_btn:hover {
+    background-color: #e60000;
+    transform: scale(1.05);
+}
+
+.floating_delete_btn svg {
+    width: 35px;
+    height: 35px;
+    color: white;
+}
