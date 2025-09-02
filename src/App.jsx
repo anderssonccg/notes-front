@@ -178,9 +178,7 @@ export const App = () => {
             index
             element={
               <Home
-                notes={filteredNotes}
                 deleteNote={deleteNote}
-                setNotes={setNotes}
                 onEdit={handleEdit}
                 onSelect={handleSelectNote}
                 notesToDelete={selectedNotes}

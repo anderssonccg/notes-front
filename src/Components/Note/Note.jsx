@@ -54,7 +54,7 @@ export const Note = ({
       </div>
 
       <div className={style.noteCategory}>
-        <strong>{tag}</strong>
+        <strong>{tag.tagName}</strong>
         <div className={style.buttonContainer}>
           <button className={style.button} onClick={onDelete}>
             <FaRegTrashAlt />
