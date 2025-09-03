@@ -1,25 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import { useNavigate } from "react-router-dom";
+import { useTag } from "../../hook/useTag";
 
-export const NavBar = ({ filterNotes, tags }) => {
+export const NavBar = ({ onFilterChange }) => {
   const [option, setOption] = useState("");
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const { data: tags = [], loading, error, getNotes } = useTag();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleSetOption = (newOption) => {
     setOption(newOption);
     setIsOpen(!isOpen);
-    filterNotes(search, newOption);
   };
 
   const handleSetSearch = (newSearch) => {
     setSearch(newSearch);
-    filterNotes(newSearch, option);
   };
+
+  useEffect(() => {
+    const filters = {};
+    if (option?.tagName) filters.tagName = option.tagName;
+    if (search) filters.search = search;
+    onFilterChange(filters);
+  }, [option, search]);
 
   return (
     <nav className={styles.navbar}>
@@ -42,8 +50,8 @@ export const NavBar = ({ filterNotes, tags }) => {
                 <li onClick={() => handleSetOption("")}>Quitar filtro</li>
               )}
               {Array.from(tags).map((tag, i) => (
-                <li key={i} onClick={() => handleSetOption(tag)}>
-                  {tag}
+                <li key={i} onClick={() => handleSetOption(tag.tagName)}>
+                  {tag.tagName}
                 </li>
               ))}
             </ul>

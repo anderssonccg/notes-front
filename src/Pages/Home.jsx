@@ -1,21 +1,15 @@
+import { useEffect } from "react";
 import { NoteList } from "../Components/NoteList/NoteList";
 import { TrashButton } from "../Components/NoteList/TrashButton";
 import { useNote } from "../hook/useNote";
+import NotesService from "../service/Note";
 
-export const Home = ({
-  deleteNote,
-  onEdit,
-  onSelect,
-  notesToDelete,
-}) => {
+export const Home = ({ filters }) => {
+  const { data: notes = [], loading, error, getNotes, updateNote } = useNote();
 
-  const { data: notes = [], loading, error, getNotes } = useNote();
-
-  // Ordena: importantes primero
-  const sortedNotes = [...notes].sort((a, b) => {
-    if (a.isImportant === b.isImportant) return 0;
-    return a.isImportant ? -1 : 1;
-  });
+  useEffect(() => {
+    getNotes(filters);
+  }, [filters]);
 
   // Maneja el estado de importancia de la nota
   const handleToggleImportant = async (id) => {
@@ -26,21 +20,43 @@ export const Home = ({
   };
 
   if (loading) return <p>Cargando notas...</p>;
-  if (error) return <p>Error al cargar notas: {error.message}</p>;  
+  if (error) return <p>Error al cargar notas: {error.message}</p>;
+
+  const onSelect = async (id) => {
+    const note = notes.find((n) => n.id === id);
+    if (note) {
+      await NotesService.updateNote(id, {
+        ...note,
+        isCompleted: !note.isCompleted,
+      });
+      getNotes();
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const note = notes.find((n) => n.id === id);
+    if (note) {
+      try {
+        await NotesService.deleteNote(id);
+        await getNotes();
+      } catch (error) {
+        console.error("Error al eliminar nota:", error);
+      }
+    }
+  };
 
   return (
     <div>
       <NoteList
-        notes={sortedNotes}
-        onDelete={deleteNote}
-        onEdit={onEdit}
+        notes={notes}
         onToggleComplete={onSelect}
         onToggleImportant={handleToggleImportant}
+        onDelete={handleDelete}
       />
-      <TrashButton
+      {/* <TrashButton
         onDelete={deleteNote}
         notesToDelete={notesToDelete}
-      ></TrashButton>
+      ></TrashButton> */}
     </div>
   );
 };
