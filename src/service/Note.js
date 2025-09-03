@@ -6,7 +6,7 @@ async function getAllNotes(filters = {}) {
       url: "https://notes-api-a3h5.onrender.com/api/v1/notes/",
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      params: filters, 
+      params: filters,
     });
     return res.data;
   } catch (error) {
@@ -46,10 +46,22 @@ async function deleteNote(id) {
   }
 }
 
+async function createNote(note) {
+  try {
+    const res = await axios({
+      url: "https://notes-api-a3h5.onrender.com/api/v1/notes/",
+      method: "POST",
+      headers: { "Content-Type": "application/json", },
+      data: note,
+    }); return res.data;
+  } catch (error) { throw error; }
+}
+
 const NotesService = {
   getAllNotes,
   updateNote,
   deleteNote,
+  createNote,
 };
 
 export default NotesService;

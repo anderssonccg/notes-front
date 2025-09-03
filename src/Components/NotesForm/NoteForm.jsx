@@ -7,6 +7,7 @@ import { TagField } from "./TagField";
 import { ImportantCheck } from "./ImportantCheck";
 import { FormButtons } from "./FormButtons";
 import { TagComboBox } from "./TagComboBox";
+import TagsService from "../../service/Tag";
 
 export const NoteForm = ({
   addColor,
@@ -29,33 +30,60 @@ export const NoteForm = ({
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title) {
       setMissingTitle(true);
       return;
     }
+
+    let tagId = null;
+
+    if (tag) {
+      // Buscar si el tag ya existe en la lista
+      const existingTag = tags.find((t) => t.tagName.toLowerCase() === tag.toLowerCase());
+
+      if (existingTag) {
+        tagId = existingTag.id;
+      } else {
+        try {
+          const newTag = await TagsService.createTag(tag);
+          tagId = newTag.id;
+        } catch (err) {
+          console.error("❌ Error creando tag:", err);
+          return;
+        }
+      }
+    }
+
     const noteData = {
       title,
-      description,
-      tag,
+      description: description || null,
       isImportant: important,
-      color,
-      background,
-      font,
+      tagId,
+      userId: 1,         // temporal
+      colorId: 1,
+      backgroundId: 1,
+      fontId: 1,
     };
+
+    console.log("📦 noteData enviado:", JSON.stringify(noteData, null, 2));
+
     if (noteToEdit) {
-      console.log("noteToEdit ID:", noteToEdit.id);
-      updateNote({ ...noteData, id: noteToEdit.id });
+      await updateNote({ ...noteData, id: noteToEdit.id });
     } else {
-      addNote(noteData);
+      await addNote(noteData);
     }
+
+    // limpiar
     setTitle("");
     setDescription("");
     setTag("");
     setImportant(false);
     navigate("/");
   };
+
+
 
   const handleMissingTitle = () => {
     if (!title) {

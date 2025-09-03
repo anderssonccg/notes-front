@@ -4,21 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { useTag } from "../../hook/useTag";
 
 export const NavBar = ({ onFilterChange }) => {
-  const [option, setOption] = useState("");   
-  const [search, setSearch] = useState("");   
+  const [option, setOption] = useState("");
+  const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { data: tags = [] } = useTag(); 
+  const { data: tags = [] } = useTag();
 
   const toggleDropdown = () => setIsOpen((v) => !v);
 
   const handleSetOption = (newOption) => {
-    setOption(newOption);          
-    setIsOpen(false);               
+    setOption(newOption);
+    setIsOpen(false);
     onFilterChange((prev) => ({
       ...prev,
-      tagName: newOption,      
+      tagName: newOption,
     }));
   };
 
@@ -36,7 +36,7 @@ export const NavBar = ({ onFilterChange }) => {
   }, [option, search]);
 
   return (
-     <nav className={styles.navbar}>
+    <nav className={styles.navbar}>
       <h1 className={styles.logo}>NOTAS</h1>
 
       <input

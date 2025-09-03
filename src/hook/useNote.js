@@ -30,9 +30,18 @@ export const useNote = (filters = {}) => {
     }
   };
 
+  const createNote = async (noteData) => {
+    try {
+      setLoading(true); const newNote = await NotesService.createNote(noteData);
+      setData((prev) => [...prev, newNote]);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
     getNotes();
   }, []);
 
-  return { data, loading, error, getNotes, updateNote };
+  return { data, loading, error, getNotes, updateNote, createNote };
 };
