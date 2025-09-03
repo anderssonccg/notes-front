@@ -29,27 +29,30 @@ export const NoteForm = ({
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title) {
       setMissingTitle(true);
       return;
     }
+
     const noteData = {
       title,
-      description,
-      tag,
+      description: description || null,
       isImportant: important,
-      color,
-      background,
-      font,
+      tagName: tag,
+      userId: 1, // temporal
+      colorId: 1,
+      backgroundId: 1,
+      fontId: 1,
     };
+
     if (noteToEdit) {
-      console.log("noteToEdit ID:", noteToEdit.id);
-      updateNote({ ...noteData, id: noteToEdit.id });
+      await updateNote({ ...noteData, id: noteToEdit.id });
     } else {
-      addNote(noteData);
+      await addNote(noteData);
     }
+
     setTitle("");
     setDescription("");
     setTag("");

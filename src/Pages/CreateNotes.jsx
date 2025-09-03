@@ -3,33 +3,34 @@ import { Colors } from "../Components/NotesForm/Colors";
 import { Fonts } from "../Components/NotesForm/Fonts";
 import style from "../Styles/notes.module.css";
 import { useState } from "react";
+import { useNote } from "../hook/useNote";
 
-export const CreateNotes = ({
-  addNote,
-  updateNote,
-  setEditingNote,
-  noteToEdit,
-  tags,
-}) => {
+export const CreateNotes = () => {
   const [color, setColor] = useState("#d3c1ad");
   const [background, setBackground] = useState("");
   const [font, setFont] = useState("");
 
-  const addColor = (newColor) => {
-    setColor(newColor);
-  };
+  const { createNote } = useNote();
 
-  const addBackground = (newBackground) => {
-    setBackground(newBackground);
-  };
+  const addColor = (newColor) => setColor(newColor);
+  const addBackground = (newBackground) => setBackground(newBackground);
+  const addFont = (newFont) => setFont(newFont);
 
-  const addFont = (newFont) => {
-    setFont(newFont);
+  // Esta función se pasa al formulario
+  const handleAddNote = async (noteData) => {
+    const newNote = {
+      ...noteData,
+      color,
+      background,
+      font,
+    };
+    await createNote(newNote);
   };
 
   return (
     <div className={style.notes_container}>
       <Colors addColor={addColor} addBackground={addBackground} />
+
       <NoteForm
         addColor={addColor}
         addBackground={addBackground}
@@ -37,12 +38,10 @@ export const CreateNotes = ({
         color={color}
         background={background}
         font={font}
-        addNote={addNote}
-        updateNote={updateNote}
-        setEditingNote={setEditingNote}
-        noteToEdit={noteToEdit}
-        tags={tags}
+        addNote={handleAddNote}
+        tags={[]}
       />
+
       <Fonts addFont={addFont} />
     </div>
   );
