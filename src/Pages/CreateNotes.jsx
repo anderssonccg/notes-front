@@ -10,7 +10,7 @@ export const CreateNotes = () => {
   const [background, setBackground] = useState("");
   const [font, setFont] = useState("");
 
-  const { createNote } = useNote(); // 👈 usamos el hook
+  const { createNote } = useNote();
 
   const addColor = (newColor) => setColor(newColor);
   const addBackground = (newBackground) => setBackground(newBackground);
@@ -38,8 +38,8 @@ export const CreateNotes = () => {
         color={color}
         background={background}
         font={font}
-        addNote={handleAddNote}   // 👈 ahora está conectado
-        tags={[]}                 // ya le pasas tus tags si los tienes
+        addNote={handleAddNote}
+        tags={[]}
       />
 
       <Fonts addFont={addFont} />
