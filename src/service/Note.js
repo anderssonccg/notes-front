@@ -1,30 +1,19 @@
 import axios from "axios";
 
-async function getAllNotes(filters) {
-  const params = new URLSearchParams();
-
-  console.log(filters);
-
-  if (tagName) params.append("tagName", tagName);
-  if (search) params.append("search", search);
-
+async function getAllNotes(filters = {}) {
   try {
     const res = await axios({
-      url: `https://notes-api-a3h5.onrender.com/api/v1/notes/`,
+      url: "https://notes-api-a3h5.onrender.com/api/v1/notes/",
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      params: {
-        tagName,
-        search,
-      },
+      headers: { "Content-Type": "application/json" },
+      params: filters, 
     });
     return res.data;
   } catch (error) {
     throw error;
   }
 }
+
 
 async function updateNote(id, note) {
   try {

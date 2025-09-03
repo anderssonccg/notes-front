@@ -15,6 +15,21 @@ async function getAllTags() {
   }
 }
 
+async function createTag() {
+  try {
+    const res = await axios({
+      url: "https://notes-api-a3h5.onrender.com/api/v1/tags/",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 const TagsService = {
   getAllTags,
 };

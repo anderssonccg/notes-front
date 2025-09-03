@@ -11,16 +11,8 @@ export const Home = ({ filters }) => {
     getNotes(filters);
   }, [filters]);
 
-  // Maneja el estado de importancia de la nota
-  const handleToggleImportant = async (id) => {
-    const note = notes.find((n) => n.id === id);
-    if (note) {
-      await updateNote(id, { ...note, isImportant: !note.isImportant });
-    }
-  };
-
   if (loading) return <p>Cargando notas...</p>;
-  if (error) return <p>Error al cargar notas: {error.message}</p>;
+  if (error) return <p>Error al cargar notas: {error}</p>;
 
   const onSelect = async (id) => {
     const note = notes.find((n) => n.id === id);
@@ -29,7 +21,15 @@ export const Home = ({ filters }) => {
         ...note,
         isCompleted: !note.isCompleted,
       });
-      getNotes();
+      getNotes(filters);
+    }
+  };
+
+  // Maneja el estado de importancia de la nota
+  const handleToggleImportant = async (id) => {
+    const note = notes.find((n) => n.id === id);
+    if (note) {
+      await updateNote(id, { ...note, isImportant: !note.isImportant });
     }
   };
 

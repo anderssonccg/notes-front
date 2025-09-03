@@ -8,14 +8,14 @@ export const useNote = (filters = {}) => {
   const [error, setError] = useState("");
 
   // llamado a la api
-  const getNotes = async () => {
+  const getNotes = async (filters = {}) => {
     setLoading(true);
     setError("");
     try {
       const res = await NotesService.getAllNotes(filters);
       setData(res);
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
