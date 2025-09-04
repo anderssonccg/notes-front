@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTag } from "../../hook/useTag";
 
 export const NavBar = ({ onFilterChange }) => {
-  const [option, setOption] = useState("");
+  const [option, setOption] = useState(null); // 👈 ahora siempre será objeto o null
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -14,20 +14,19 @@ export const NavBar = ({ onFilterChange }) => {
   const toggleDropdown = () => setIsOpen((v) => !v);
 
   const handleSetOption = (newOption) => {
-    setOption(newOption);
+    if (!newOption) {
+      setOption(null); // quitar filtro
+    } else {
+      setOption({ tagName: newOption }); // guardar como objeto
+    }
     setIsOpen(false);
-    onFilterChange((prev) => ({
-      ...prev,
-      tagName: newOption,
-    }));
   };
 
   const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-    onFilterChange((prev) => ({ ...prev, search: value }));
+    setSearch(e.target.value);
   };
 
+  // 👇 centralizamos la lógica aquí, siempre usando estado actualizado
   useEffect(() => {
     const filters = {};
     if (option?.tagName) filters.tagName = option.tagName;
@@ -50,15 +49,15 @@ export const NavBar = ({ onFilterChange }) => {
       <div className={styles.buttonContainer}>
         <div className={styles.dropdown}>
           <button onClick={toggleDropdown} className={styles.filterBtn}>
-            {option ? option : "▼ Filtrar por"}
+            {option?.tagName || "▼ Filtrar por"}
           </button>
 
           {isOpen && (
             <ul className={styles.menu}>
               {option && (
-                <li onClick={() => handleSetOption("")}>Quitar filtro</li>
+                <li onClick={() => handleSetOption(null)}>Quitar filtro</li>
               )}
-              {Array.from(tags).map((tag, i) => (
+              {tags.map((tag, i) => (
                 <li key={i} onClick={() => handleSetOption(tag.tagName)}>
                   {tag.tagName}
                 </li>
