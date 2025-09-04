@@ -1,19 +1,14 @@
-import React from "react";
 import { Note } from "../Note/Note";
 import styles from "./NoteList.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import NotesService from "../../service/Note";
 
 export const NoteList = ({
   notes,
   onToggleComplete,
   onToggleImportant,
   onDelete,
+  onEdit,
 }) => {
-  const handleDelete = (id) => onDelete(id);
-  const handleToggleComplete = (id) => onToggleComplete(id);
-  const handleToggleImportant = (id) => onToggleImportant(id);
-
   return (
     <>
       {notes.length === 0 ? (
@@ -32,10 +27,10 @@ export const NoteList = ({
               >
                 <Note
                   {...note}
-                  onDelete={() => handleDelete(note.id)}
-                  onEdit={() => {}}
-                  handleToggleComplete={() => handleToggleComplete(note.id)}
-                  handleToggleImportant={() => handleToggleImportant(note.id)}
+                  onDelete={() => onDelete(note.id)}
+                  onEdit={() => onEdit(note)}
+                  handleToggleComplete={() => onToggleComplete(note.id)}
+                  handleToggleImportant={() => onToggleImportant(note.id)}
                 />
               </motion.div>
             ))}

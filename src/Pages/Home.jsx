@@ -1,12 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NoteList } from "../Components/NoteList/NoteList";
-import { TrashButton } from "../Components/NoteList/TrashButton";
+import { NoteForm } from "../Components/NotesForm/NoteForm";
 import { useNote } from "../hook/useNote";
 import NotesService from "../service/Note";
+import { useNavigate } from "react-router-dom";
 
 export const Home = ({ filters }) => {
-  const { data: notes = [], loading, error, getNotes, updateNote } = useNote();
-
+  const {
+    data: notes = [],
+    loading,
+    error,
+    getNotes,
+    updateNote,
+    createNote,
+  } = useNote();
+  const [noteToEdit, setEditingNote] = useState(null); // 👈 estado para editar
+  const navigate = useNavigate();
   useEffect(() => {
     getNotes(filters);
   }, [filters]);
@@ -25,7 +34,6 @@ export const Home = ({ filters }) => {
     }
   };
 
-  // Maneja el estado de importancia de la nota
   const handleToggleImportant = async (id) => {
     const note = notes.find((n) => n.id === id);
     if (note) {
@@ -45,18 +53,24 @@ export const Home = ({ filters }) => {
     }
   };
 
+  const handleEdit = (note) => {
+    setEditingNote(note); // ✅ solo lógica normal
+    navigate("/notes/create", {
+      // ✅ pasamos la nota al formulario con state
+      state: { note },
+    });
+  };
+
   return (
     <div>
+      {/* Lista de notas */}
       <NoteList
         notes={notes}
         onToggleComplete={onSelect}
         onToggleImportant={handleToggleImportant}
         onDelete={handleDelete}
+        onEdit={handleEdit}
       />
-      {/* <TrashButton
-        onDelete={deleteNote}
-        notesToDelete={notesToDelete}
-      ></TrashButton> */}
     </div>
   );
 };

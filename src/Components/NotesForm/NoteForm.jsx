@@ -49,6 +49,8 @@ export const NoteForm = ({
 
     if (noteToEdit) {
       await updateNote({ ...noteData, id: noteToEdit.id });
+      navigate("/");
+      setEditingNote(null); // 👈 salir del modo edición
     } else {
       await addNote(noteData);
     }
@@ -81,63 +83,49 @@ export const NoteForm = ({
       addFont(noteToEdit.font || "");
       setTitle(noteToEdit.title || "");
       setDescription(noteToEdit.description || "");
-      setTag(noteToEdit.tag || "");
+      setTag(noteToEdit.tag?.tagName || "");
       setImportant(noteToEdit.isImportant || false);
     }
   }, [noteToEdit]);
 
   return (
-    <>
-      <form
-        className={style.container}
-        style={noteStyle}
-        onSubmit={handleSubmit}
-      >
-        <h1 className={style.title}>
-          {noteToEdit ? "Editar nota" : "Nueva nota"}
-        </h1>
-        <TitleField
-          title={title}
-          missingTitle={missingTitle}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          onBlur={handleMissingTitle}
-          font={font}
-        />
-        <DescriptionField
-          description={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-          font={font}
-        />
-        <div className={style.tagContainer}>
-          {noteToEdit ? (
-            <TagComboBox
-              tag={tag}
-              onChange={(e) => {
-                setTag(e.target.value);
-              }}
-              options={Array.from(tags)}
-            />
-          ) : (
-            <TagField
-              tag={tag}
-              onChange={(e) => {
-                setTag(e.target.value);
-              }}
-            />
-          )}
-          <ImportantCheck
-            important={important}
-            onClick={() => {
-              setImportant(!important);
-            }}
+    <form className={style.container} style={noteStyle} onSubmit={handleSubmit}>
+      <h1 className={style.title}>
+        {noteToEdit ? "Editar nota" : "Nueva nota"}
+      </h1>
+
+      <TitleField
+        title={title}
+        missingTitle={missingTitle}
+        onChange={(e) => setTitle(e.target.value)}
+        onBlur={handleMissingTitle}
+        font={font}
+      />
+
+      <DescriptionField
+        description={description}
+        onChange={(e) => setDescription(e.target.value)}
+        font={font}
+      />
+
+      <div className={style.tagContainer}>
+        {noteToEdit ? (
+          <TagComboBox
+            tag={tag}
+            onChange={(e) => setTag(e.target.value)}
+            options={Array.from(tags)}
           />
-        </div>
-        <FormButtons navigate={navigate} setEditingNote={setEditingNote} />
-      </form>
-    </>
+        ) : (
+          <TagField tag={tag} onChange={(e) => setTag(e.target.value)} />
+        )}
+
+        <ImportantCheck
+          important={important}
+          onClick={() => setImportant(!important)}
+        />
+      </div>
+
+      <FormButtons navigate={navigate} setEditingNote={setEditingNote} />
+    </form>
   );
 };

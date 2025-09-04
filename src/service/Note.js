@@ -14,7 +14,6 @@ async function getAllNotes(filters = {}) {
   }
 }
 
-
 async function updateNote(id, note) {
   try {
     const res = await axios({
@@ -51,10 +50,13 @@ async function createNote(note) {
     const res = await axios({
       url: "https://notes-api-a3h5.onrender.com/api/v1/notes/",
       method: "POST",
-      headers: { "Content-Type": "application/json", },
+      headers: { "Content-Type": "application/json" },
       data: note,
-    }); return res.data;
-  } catch (error) { throw error; }
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 const NotesService = {
